@@ -1,0 +1,79 @@
+buried
+drift,winter
+bank,winter
+shovel,winter,tool,human-made
+barn,place,building,human-made
+snug,clothes
+stall,place,human-made
+glittering,light,changing
+sparkle,light,changing
+icicle,winter,water,cold
+eaves,building
+snowbank,winter
+mustache,body part
+stamp
+bear hug,action
+bead,human-made
+whittle,cutting,action
+sand-paper,tool,human-made
+palm,body part
+jack-knife,tool,human-made,cutting
+peak,place,shape
+carve,cutting
+crescent,shape
+curlicue,shape
+shaving,cutting
+vine,natural,plant
+run around,moving
+bracket,human-made
+china,human-made
+gilt
+rye ‘n Injun bread,food,human-made
+Swedish crackers,food,human-made
+molasses,food,human-made
+stream
+squiggledy,shape
+gay,happy,emotion
+sleigh bell,human-made
+bobsled,human-made
+buffalo,natural,animal
+veil,clothes,human-made
+shawl,clothes,human-made
+bundle
+stump
+spoil
+stocking,clothes,human-made
+trundle bed,human-made,furniture
+narrow squeak
+pail,tool,human-made
+ravine,natural,place
+scold,action,anger
+snarl,action,anger,violent
+snap,action,anger
+savage,action,violent
+flicker,light,changing
+dare
+tear,action,violent
+tracks
+panther,natural,animal
+oak,natural,plant
+fuss
+fiddle,tool,instrument,human-made,music
+quivering,moving
+darling
+flannel nightgown / nightshirt,clothes,human-made,winter
+notched,cutting
+pokeberry,plant,natural
+gaiters,clothes,human-made
+calico,clothes,human-made
+wriggled,moving
+switch,tool,human-made
+tease,action
+knit,action,clothes
+needle-book,human-made
+chore,work
+griddle,tool,human-made,food,cooking
+piping hot,heat,temperature
+flatirons,tool,human-made
+trot,moving
+gaily,happy,emotion
