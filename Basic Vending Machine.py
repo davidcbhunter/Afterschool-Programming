@@ -33,3 +33,21 @@ while choice != "q":
     show_products()
     #choice will be the product number: 1, 2, 3, etc
     choice = input("Please pick a product.\n")
+    #print(type(choice))
+    if choice.isnumeric():
+        choice = int(choice)
+    #check if choice is OK
+        if choice == 1 or choice == 2 or \
+           choice == 3 or choice == 4 or \
+           choice == 5:
+            print(str(choice) + " was chosen")
+            #check if the product is in stock
+            if (choice == 1 and product_one_amount == 0) or (choice == 2 and product_two_amount == 0) or\
+               (choice == 3 and product_three_amount == 0) or (choice == 4 and product_four_amount == 0)\
+               or (choice == 5 and product_five_amount == 0):
+                print("sold out")
+            else:
+                money = input("Please enter money.\n")
+                if money.isnumeric():
+                    print("safe!")
+
