@@ -29,6 +29,18 @@ def show_products():
           str(product_three_price) + "\t" + str(product_four_price) + "\t" + \
           str(product_five_price))
 
+def is_product():
+    return choice == 1 or choice == 2 or \
+           choice == 3 or choice == 4 or \
+           choice == 5
+
+def is_sold_out():
+    return (choice == 1 and product_one_amount == 0) or\
+           (choice == 2 and product_two_amount == 0) or\
+           (choice == 3 and product_three_amount == 0) or\
+           (choice == 4 and product_four_amount == 0) or\
+           (choice == 5 and product_five_amount == 0)
+
 while choice != "q":
     show_products()
     #choice will be the product number: 1, 2, 3, etc
@@ -37,17 +49,12 @@ while choice != "q":
     if choice.isnumeric():
         choice = int(choice)
     #check if choice is OK
-        if choice == 1 or choice == 2 or \
-           choice == 3 or choice == 4 or \
-           choice == 5:
+        if is_product():
             print(str(choice) + " was chosen")
             #check if the product is in stock
-            if (choice == 1 and product_one_amount == 0) or (choice == 2 and product_two_amount == 0) or\
-               (choice == 3 and product_three_amount == 0) or (choice == 4 and product_four_amount == 0)\
-               or (choice == 5 and product_five_amount == 0):
+            if is_sold_out():
                 print("sold out")
             else:
                 money = input("Please enter money.\n")
                 if money.isnumeric():
                     print("safe!")
-
