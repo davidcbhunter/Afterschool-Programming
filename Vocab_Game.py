@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import ttk
 import random
 import time
 
@@ -70,6 +71,9 @@ def show_scrambled_word(word,hint):
     hint.grid(column = 3, row = 2)
     entry.grid(column = 3, row = 3)
 
+group_positions = {}
+word_groups = {}
+
 def make_groups(c):
     # make a list of tags
     tag_counts, c_reversed = get_tags_and_c_reversed(c)
@@ -89,11 +93,12 @@ def make_groups(c):
 
     #get 2-6 words for each group, don't worry about
     # words in multiple groups
-    word_groups = {}
+    #word_groups = {}
     for g in group_list:
         word_groups[g] = list()
         #print(g)
-        num_words = random.randint(2,min(len(c_reversed[g]),6))
+        num_words = random.randint(2,\
+                    min(len(c_reversed[g]),6))
         #print(c_reversed[g])
         random.shuffle(c_reversed[g])
         #print(c_reversed[g])
@@ -101,10 +106,10 @@ def make_groups(c):
             #print(c_reversed[g][n])
             word_groups[g].append(c_reversed[g][n])
             
-    #for x in word_groups:
-    #    print(x)
-    #    for w in word_groups[x]:
-    #        print("\t" +w)
+    for x in word_groups:
+        print(x)
+        for w in word_groups[x]:
+            print("\t" +w)
     
     # return a dictionary which has the tag for
     # key and a list of words for the value
@@ -112,10 +117,46 @@ def make_groups(c):
 
 
 def show_groups(groups):
+    global group_positions
     # make the labels using the keys
     #make draggable word labels
-    pass
+    word_list = []
+    for g in groups:
+        for w in groups[g]:
+            word_list.append(w)
+    print(word_list)
+    random.shuffle(word_list)
+    print(word_list)
+    x = 0
+    #label = tk.LabelFrame(root, text = list(groups.keys())[0])
+    #label.grid(column = 4, row = 4)
+    for g in groups:
+        label = tk.Button(root, text = g,state = tk.DISABLED, padx = 8)
+        label.grid(column = 4 + x, row = 4)#,padx = 6,pady=2)
+        label.update_idletasks()
+        group_positions[g] = [label.winfo_x(),label.winfo_y()]
+        print(group_positions)
+        x += 1
+    x = 0
+    y = 0
+    for x in range(len(groups.keys())):
+        for y in range(8):
+            label = tk.Label(root, text = "     ")
+            label.grid(column = 4 + x, row = 5+y)
+            y+=1
+        x+=1
+        y = 0
 
+    x = 0
+    y = 0
+    for w in word_list:
+        label = tk.Label(root, text = w)
+        label.grid(column = 4 + x, row = 8+y)
+        make_draggable(label)
+        x += 1
+        if x > 4:
+            x = 0
+            y += 1
 def make_odd_one_out():
     tag_counts, c_reversed = get_tags_and_c_reversed(c)
     
@@ -185,14 +226,15 @@ def on_select(event):
 
 def Selected(sel):
     global word
+    global word_groups
     word = random.choice(list(c.keys()))
     if sel == "Scramble":    
         show_scrambled_word(word,hint)
     elif sel == "No_Vowels":
         show_no_vowel_word(word,hint)
     elif sel == "Group":
-        groups = make_groups(c)
-        show_groups(groups)
+        word_groups = make_groups(c)
+        show_groups(word_groups)
     elif sel == "Odd_One_Out":
         odd_one_out = make_odd_one_out()
         show_odd_one_out(odd_one_out)
@@ -207,7 +249,7 @@ def Check(event):
         print("incorrect")
         message.configure(text = "Nope")
     message.grid(column = 3, row = 4)
-    message.update()
+    message.update_idletasks()
     HideMessage(message)
 
 lb.bind("<<ListboxSelect>>", on_select)
@@ -228,19 +270,20 @@ def HideMessage(message):
     entry.update()
     Selected(selection)
 
-def make_draggable(widget):
-    widget.bind("<Button-1>",on_drag_start)
-    widget.bind("<B1-Motion>",on_drag_motion)
-    widget.bind("<ButtonRelease-1>",on_drag_finish)
+def make_draggable(wid):
+    wid.bind("<Button-1>",on_drag_start)
+    wid.bind("<B1-Motion>",on_drag_motion)
+    wid.bind("<ButtonRelease-1>",on_drag_finish)
 
 original_pos_x = 0
 original_pos_y = 0
+
 def on_drag_start(event):
     global original_pos_x
     global original_pos_y
+    widget = event.widget
     original_pos_x = widget.winfo_x()
     original_pos_y = widget.winfo_y()
-    widget = event.widget
     widget._drag_start_x = event.x
     widget._drag_start_y = event.y
 
@@ -249,10 +292,23 @@ def on_drag_motion(event):
     x = widget.winfo_x() - widget._drag_start_x + event.x
     y = widget.winfo_y() - widget._drag_start_y + event.y
     widget.place(x=x,y=y)
+    widget.update_idletasks()
     
 def on_drag_finish(event):
     widget = event.widget
+    widget.update_idletasks()
     #check the position
+    print(widget.winfo_x())
+    print(widget.winfo_y())
+    selected_word = widget.cget("text")
+    group = ""
+    for g in word_groups:
+        if selected_word in word_groups[g]:
+            group = g
+            break
+    if g != "":
+        print(group)
+        print(group_positions[g])
     #if correct, use widget.unbind("<Button-1>")
     # widget.unbind("<B1-Motion>")
     # widget.unbind("<ButtonRelease-1>")
