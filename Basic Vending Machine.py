@@ -41,6 +41,16 @@ def is_sold_out():
            (choice == 4 and product_four_amount == 0) or\
            (choice == 5 and product_five_amount == 0)
 
+def is_enough_money():
+    return (choice == 1 and product_one_price <= money) or\
+           (choice == 2 and product_two_price <= money) or\
+           (choice == 3 and product_three_price <= money) or\
+           (choice == 4 and product_four_price <= money) or\
+           (choice == 5 and product_five_price <= money)
+
+def buy():
+    pass
+
 while choice != "q":
     show_products()
     #choice will be the product number: 1, 2, 3, etc
@@ -58,3 +68,13 @@ while choice != "q":
                 money = input("Please enter money.\n")
                 if money.isnumeric():
                     print("safe!")
+                    #convert the money to an int
+                    money = int(money)
+                    #check if it is enough money
+                    if is_enough_money():
+                        print("enough")
+                        #buy the product
+                        buy()
+                    else:
+                        print("not enough money")
+                        
