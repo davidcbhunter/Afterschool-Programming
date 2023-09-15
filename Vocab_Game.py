@@ -12,13 +12,14 @@ root.geometry("900x800")
 root.title()
 
 type_list = tk.StringVar()
-type_list.set("Scramble No_Vowels Group Odd_One_Out")
+type_list.set("Scramble No_Vowels Group Odd_One_Out Opposites")
 
 c = {}
 
 class Word:
-    def __init__(self,wo,tag_list):
+    def __init__(self,wo,tag_list, oppo = ""):
         self.word = wo
+        self.opposite = oppo
         self.tags = tag_list
         
     def Has_Tag(self,tag):
@@ -38,16 +39,47 @@ def openfile():
     con = f.read()
     words_list = con.split("\n")
     for w in words_list:
-        if "," in w:
-            w = w.split(",")
-            for ww in w:
-                ww = ww.lstrip().rstrip()
-            word = Word(w.pop(0),w)
+        # update this so that you take off the
+        # opposite term first (if it exists)
+        if ";" in w:
+            #print("has opposite")
+            w_list = w.split(";")
+            wo = w_list.pop(0)
+            #print(wo)
+            w_list = str(w_list[0])
+            #print(w_list)
+            if "," in w_list:
+                #print("has tags")
+                w_list_two = w_list.split(",")
+                opp = w_list_two.pop(0)
+                #print(opp)
+                for ww in w_list_two:
+                    ww = ww.lstrip().rstrip()
+                #print(w_list_two)
+                word = Word(wo,w_list_two,opp)
+            else:
+                #print("no tags")
+                opp = w_list.pop(0)
+                word = Word(w,list(),opp)
         else:
-            w = w.lstrip().rstrip()
-            word = Word(w,list())
+            #print("no opposite")
+            if "," in w:
+                w_list = w.split(",")
+                wo = w_list.pop(0)
+                #print(wo)
+                for ww in w_list:
+                    ww = ww.lstrip().rstrip()
+                word = Word(wo,w_list)
+            else:
+                wo = w
+                word = Word(wo,list())
         c[word.word] = word
     f.close()
+#    for w in c:
+#        print(c[w].word)
+#        print(c[w].opposite)
+#        print(c[w].tags)
+#        print("\n")
     show_choices()
     #print(c)
 
@@ -196,6 +228,33 @@ def make_odd_one_out():
 def show_odd_one_out(odd_one_out):
     pass
 
+def get_opposites(c):
+    max_opposite = 7
+    word_dict = {}
+    for wo in c:
+        if c[wo].opposite != "" and \
+           len(word_dict) < max_opposite:
+            word_dict[wo] = c[wo].opposite
+    print(word_dict)
+    return list(word_dict.keys()), list(word_dict.values())
+
+canvas = tk.Canvas(root, width=500, height=300, bg = "white")
+
+def show_opposites(word_list,opposite_list):
+    canvas.place(x = 100, y = 75)
+    for w in word_list:
+        canvas.create_text(110,85+(
+            word_list.index(w) * 35),text = w)
+    random.shuffle(opposite_list)
+    for w in opposite_list:
+        canvas.create_text(350,85+(
+            opposite_list.index(w) * 35),text = w)
+    root.bind("<Button-1>",on_draw_line_start)
+    root.bind("<B1-Motion>",on_draw_line_motion)
+    root.bind("<ButtonRelease-1>",on_draw_line_finish)
+
+
+
 def get_tags_and_c_reversed(c):
     tag_counts = {}
     c_reversed = {}
@@ -238,6 +297,9 @@ def Selected(sel):
     elif sel == "Odd_One_Out":
         odd_one_out = make_odd_one_out()
         show_odd_one_out(odd_one_out)
+    elif sel == "Opposites":
+        words, opposites = get_opposites(c)
+        show_opposites(words,opposites)
     lb.grid_forget()
 
 def Check(event):
@@ -277,6 +339,73 @@ def make_draggable(wid):
 
 original_pos_x = 0
 original_pos_y = 0
+line_id = 0
+reset = False
+
+def on_draw_line_start(event):
+    global original_pos_x
+    global original_pos_y
+    global line_id
+    original_pos_x = event.x
+    original_pos_y = event.y
+    if line_id == 0 or reset:
+        line_id = canvas.create_line(original_pos_x,\
+                                 original_pos_y,\
+                                 original_pos_x,\
+                                 original_pos_y, width = 5)
+    else:
+        canvas.itemconfigure(line_id, state = tk.NORMAL)
+        canvas.coords(line_id, original_pos_x,\
+                                 original_pos_y,\
+                                 original_pos_x,\
+                                 original_pos_y)
+            
+
+def on_draw_line_motion(event):
+    canvas.coords(line_id,original_pos_x,\
+                  original_pos_y,\
+                  event.x, event.y)
+# write code to draw lines between two points
+
+#when the mouse button is released, check if
+#it is correct
+def on_draw_line_finish(event):
+    #check the position
+    global reset
+    start_id = canvas.find_closest(original_pos_x,\
+                                   original_pos_y,\
+                                   halo = 5, start = line_id)
+    end_id = canvas.find_closest(event.x,\
+                                   event.y,\
+                                   halo = 5, start = line_id)
+    #print(line_id)
+    #print(start_id)
+    #print(end_id)
+
+    if all(start_id):
+        if "text" in canvas.itemconfigure(start_id):
+            s = canvas.itemcget(start_id,"text")
+            if all(end_id):
+                if "text" in canvas.itemconfigure(end_id):
+                    e = canvas.itemcget(end_id,"text")
+                    if c[s].opposite != e:
+                        canvas.itemconfigure(line_id, state = tk.HIDDEN)
+                        reset = False
+                    else:
+                        reset = True
+                else:
+                    canvas.itemconfigure(line_id, state = tk.HIDDEN)
+                    reset = False
+            else:
+                canvas.itemconfigure(line_id, state = tk.HIDDEN)
+                reset = False
+        else:
+            canvas.itemconfigure(line_id, state = tk.HIDDEN)
+            reset = False
+    else:
+        canvas.itemconfigure(line_id, state = tk.HIDDEN)
+        reset = False
+    
 
 def on_drag_start(event):
     global original_pos_x

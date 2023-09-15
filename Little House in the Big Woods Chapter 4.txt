@@ -3,9 +3,9 @@ drift,winter
 bank,winter
 shovel,winter,tool,human-made
 barn,place,building,human-made
-snug,clothes
+snug;loose,clothes
 stall,place,human-made
-glittering,light,changing
+glittering;dull,light,changing
 sparkle,light,changing
 icicle,winter,water,cold
 eaves,building
@@ -16,15 +16,15 @@ bear hug,action
 bead,human-made
 whittle,cutting,action
 sand-paper,tool,human-made
-palm,body part
+palm;back of hand,body part
 jack-knife,tool,human-made,cutting
-peak,place,shape
+peak;trough,place,shape
 carve,cutting
 crescent,shape
 curlicue,shape
 shaving,cutting
 vine,natural,plant
-run around,moving
+run around;stand still,moving
 bracket,human-made
 china,human-made
 gilt
@@ -33,7 +33,7 @@ Swedish crackers,food,human-made
 molasses,food,human-made
 stream
 squiggledy,shape
-gay,happy,emotion
+gay;sad,happy,emotion
 sleigh bell,human-made
 bobsled,human-made
 buffalo,natural,animal
@@ -42,15 +42,15 @@ shawl,clothes,human-made
 bundle
 stump
 spoil
-stocking,clothes,human-made
+stocking;glove,clothes,human-made
 trundle bed,human-made,furniture
 narrow squeak
 pail,tool,human-made
-ravine,natural,place
-scold,action,anger
+ravine;mountain,natural,place
+scold;praise,action,anger
 snarl,action,anger,violent
 snap,action,anger
-savage,action,violent
+savage;gentle,action,violent
 flicker,light,changing
 dare
 tear,action,violent
@@ -71,9 +71,9 @@ switch,tool,human-made
 tease,action
 knit,action,clothes
 needle-book,human-made
-chore,work
+chore;play,work
 griddle,tool,human-made,food,cooking
-piping hot,heat,temperature
+piping hot;freezing cold,heat,temperature
 flatirons,tool,human-made
 trot,moving
-gaily,happy,emotion
+gaily;sadly,happy,emotion
