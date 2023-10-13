@@ -156,9 +156,9 @@ def show_groups(groups):
     for g in groups:
         for w in groups[g]:
             word_list.append(w)
-    print(word_list)
+    #print(word_list)
     random.shuffle(word_list)
-    print(word_list)
+    #print(word_list)
     x = 0
     #label = tk.LabelFrame(root, text = list(groups.keys())[0])
     #label.grid(column = 4, row = 4)
@@ -166,8 +166,10 @@ def show_groups(groups):
         label = tk.Button(root, text = g,state = tk.DISABLED, padx = 8)
         label.grid(column = 4 + x, row = 4)#,padx = 6,pady=2)
         label.update_idletasks()
-        group_positions[g] = [label.winfo_x(),label.winfo_y()]
-        print(group_positions)
+        group_positions[g] = [label.winfo_x(),\
+                              label.winfo_y(),\
+                              label.winfo_width()]
+        #print(group_positions)
         x += 1
     x = 0
     y = 0
@@ -183,7 +185,7 @@ def show_groups(groups):
     y = 0
     for w in word_list:
         label = tk.Label(root, text = w)
-        label.grid(column = 4 + x, row = 8+y)
+        label.place(x = 40 + (x*50), y = 100+(y*30))
         make_draggable(label)
         x += 1
         if x > 4:
@@ -286,6 +288,9 @@ def on_select(event):
 def Selected(sel):
     global word
     global word_groups
+    #do this first to get accurate positions
+    lb.grid_forget()
+    lb.update_idletasks()
     word = random.choice(list(c.keys()))
     if sel == "Scramble":    
         show_scrambled_word(word,hint)
@@ -300,7 +305,7 @@ def Selected(sel):
     elif sel == "Opposites":
         words, opposites = get_opposites(c)
         show_opposites(words,opposites)
-    lb.grid_forget()
+    
 
 def Check(event):
     print("checking")
@@ -427,20 +432,24 @@ def on_drag_finish(event):
     widget = event.widget
     widget.update_idletasks()
     #check the position
-    print(widget.winfo_x())
-    print(widget.winfo_y())
+    #print(widget.winfo_x())
+    #print(widget.winfo_y())
     selected_word = widget.cget("text")
     group = ""
     for g in word_groups:
-        if selected_word in word_groups[g]:
+        if selected_word in word_groups[g] \
+        and widget.winfo_x() <= group_positions[g][0] + \
+        group_positions[g][2]/2.0 + 5\
+        and widget.winfo_x() > group_positions[g][0] - \
+        group_positions[g][2]/2.0 - 5:
             group = g
             break
-    if g != "":
-        print(group)
-        print(group_positions[g])
-    #if correct, use widget.unbind("<Button-1>")
-    # widget.unbind("<B1-Motion>")
-    # widget.unbind("<ButtonRelease-1>")
-    # if not correct, move the widget
-    # widget.place(x=original_pos_x,y=original_pos_y)
+    if group != "":
+        #print(group)
+        #print(group_positions[g])
+        widget.unbind("<Button-1>")
+        widget.unbind("<B1-Motion>")
+        widget.unbind("<ButtonRelease-1>")
+    else:
+        widget.place(x=original_pos_x,y=original_pos_y)
 root.mainloop()
