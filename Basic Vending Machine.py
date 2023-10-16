@@ -20,6 +20,7 @@ product_five_amount = 25
 
 
 choice = ""
+money_in_vending_machine = 1000
 
 def show_products():
     print(product_one + "\t" + product_two + "\t" + product_three + "\t" + \
@@ -48,8 +49,42 @@ def is_enough_money():
            (choice == 4 and product_four_price <= money) or\
            (choice == 5 and product_five_price <= money)
 
-def buy():
-    pass
+def buy(mivm):
+    global product_one_amount
+    global product_two_amount
+    global product_three_amount
+    global product_four_amount
+    global product_five_amount
+    if choice == 1:
+        product_one_amount -= 1
+        mivm += product_one_price
+        change = money - product_one_price
+        print("You have " + str(change) + " yen in change.")
+        print("Enjoy your " + product_one)
+    elif choice == 2:
+        product_two_amount -= 1
+        mivm += product_two_price
+        change = money - product_two_price
+        print("You have " + str(change) + " yen in change.")
+        print("Enjoy your " + product_two)
+    elif choice == 3:
+        product_three_amount -= 1
+        mivm += product_three_price
+        change = money - product_three_price
+        print("You have " + str(change) + " yen in change.")
+        print("Enjoy your " + product_three)
+    elif choice == 4:
+        product_four_amount -= 1
+        mivm += product_four_price
+        change = money - product_four_price
+        print("You have " + str(change) + " yen in change.")
+        print("Enjoy your " + product_four)
+    else:
+        product_five_amount -= 1
+        mivm += product_five_price
+        change = money - product_five_price
+        print("You have " + str(change) + " yen in change.")
+        print("Enjoy your " + product_five)
 
 while choice != "q":
     show_products()
@@ -74,7 +109,7 @@ while choice != "q":
                     if is_enough_money():
                         print("enough")
                         #buy the product
-                        buy()
+                        buy(money_in_vending_machine)
                     else:
                         print("not enough money")
                         
