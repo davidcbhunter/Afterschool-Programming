@@ -83,6 +83,8 @@ def openfile():
     show_choices()
     #print(c)
 
+#write function to split line into word?
+
 open_btn = tk.Button(root, text = "Open",command = openfile)
 open_btn.grid(column = 1, row = 1)
 
@@ -185,7 +187,7 @@ def show_groups(groups):
     y = 0
     for w in word_list:
         label = tk.Label(root, text = w)
-        label.place(x = 40 + (x*50), y = 100+(y*30))
+        label.place(x = 40 + (x*50), y = 300+(y*30))
         make_draggable(label)
         x += 1
         if x > 4:
