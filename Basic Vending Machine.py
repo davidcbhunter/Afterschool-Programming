@@ -95,21 +95,25 @@ while choice != "q":
         choice = int(choice)
     #check if choice is OK
         if is_product():
-            print(str(choice) + " was chosen")
+            print(str(choice) + " was chosen.\n")
             #check if the product is in stock
             if is_sold_out():
-                print("sold out")
+                print("Sold out.\n")
             else:
                 money = input("Please enter money.\n")
                 if money.isnumeric():
-                    print("safe!")
+                    #print("safe!")
                     #convert the money to an int
                     money = int(money)
                     #check if it is enough money
                     if is_enough_money():
-                        print("enough")
+                        #print("enough")
                         #buy the product
                         buy(money_in_vending_machine)
                     else:
-                        print("not enough money")
-                        
+                        print("Not enough money\n")
+        else:
+            print("Sorry. Pick again.\n")
+    else:
+        print("Sorry. Pick again.\n")
+    
