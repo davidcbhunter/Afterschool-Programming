@@ -1,22 +1,26 @@
-product_one = "orange juice"
-product_one_price = 150
-product_one_amount = 15
+#product_one = "orange juice"
+#product_one_price = 150
+#product_one_amount = 15
 
-product_two = "black coffee"
-product_two_price = 120
-product_two_amount = 30
+#product_two = "black coffee"
+#product_two_price = 120
+#product_two_amount = 30
 
-product_three = "Milk Tea"
-product_three_price = 130
-product_three_amount = 30
+#product_three = "Milk Tea"
+#product_three_price = 130
+#product_three_amount = 30
 
-product_four = "Dr. Pepper"
-product_four_price = 150
-product_four_amount = 20
+#product_four = "Dr. Pepper"
+#product_four_price = 150
+#product_four_amount = 20
 
-product_five = "Monster"
-product_five_price = 220
-product_five_amount = 25
+#product_five = "Monster"
+#product_five_price = 220
+#product_five_amount = 25
+
+product_list = ["Orange Juice", "Black Coffee",\
+                "Milk Tea", "Dr. Pepper", \
+                "Monster"]
 
 
 choice = ""
