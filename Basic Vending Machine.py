@@ -22,14 +22,18 @@ product_list = ["Orange Juice", "Black Coffee",\
                 "Milk Tea", "Dr. Pepper", \
                 "Monster"]
 
+product_price_list = [150,120,130,150,220]
+
+product_amount_list = [15,30,30,20,25]
 
 choice = ""
 money_in_vending_machine = 1000
 
 def show_products():
-    print(product_one + "\t" + product_two + "\t" + product_three + "\t" + \
-          product_four + "\t" + \
-          product_five)
+    message = ""
+    for p in product_list:
+        message += p + "\t"
+    print(message)
     print(str(product_one_price) + "\t" + str(product_two_price) + "\t" + \
           str(product_three_price) + "\t" + str(product_four_price) + "\t" + \
           str(product_five_price))
